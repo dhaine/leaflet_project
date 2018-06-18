@@ -1,0 +1,49 @@
+
+---
+title: "World Cup 2018"
+output: 
+    html_document
+date: "`r format(Sys.time(), '%d %B %Y')`"
+---
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, results=FALSE}
+Sys.setlocale("LC_ALL", 'en_GB.UTF-8')
+```
+
+### Group Phase Results and Stadiums
+
+As of `r format(Sys.time(), '%d %B %Y')`.
+
+```{r, echo=FALSE, message=FALSE}
+library(leaflet)
+stadium <- data.frame(stadium = c("Luzhniki Stadium", "Spartak Stadium",
+                                  "Saint Petersburg Stadium", "Kaliningrad Stadium",
+                                  "Kazan Arena", "Nizhny Novgorod Stadium",
+                                  "Samara Arena", "Volgograd Arena",
+                                  "Mordovia Arena", "Rostov Arena",
+                                  "Fisht Stadium", "Ekaterinburg Arena"),
+                      lat = c(55.715765, 55.817765,
+                              59.972740, 54.698157,
+                              55.820983, 56.337287,
+                              53.278146, 48.734195,
+                              54.181795, 47.209581,
+                              43.402011, 56.832490),
+                      lng = c(37.5515217, 37.440363,
+                              30.221408, 20.533859,
+                              49.160966, 43.963251,
+                              50.238854, 44.548345,
+                              45.203851, 39.738424,
+                              39.955709, 60.573585))
+results <- c(paste(sep = "<br/>", "<b>Moscow-Luzhniki Stadium</b>", "Russia-Saudi Arabia 5-0", "Germany-Mexico 0-1"), paste(sep = "<br/>", "<b>Moscow-Spartak Stadium</b>", "Argentina-Iceland 1-1"),
+             paste(sep = "<br/>", "<b>Saint Petersburg</b>", "Morocco-IR Iran 0-1"), paste(sep = "<br/>", "<b>Kaliningrad</b>", "Croatia-Nigeria 2-0"),
+             paste(sep = "<br/>", "<b>Kazan</b>", "Costa Rica-Serbia 0-1"), paste(sep = "<br/>", "<b>Nizhny Novgorod</b>", "Sweden-Korea Republic 1-0"),
+             paste(sep = "<br/>", "<b>Samara</b>", "France-Australia 2-1"), paste(sep = "<br/>", "<b>Volgograd</b>", ""),
+             paste(sep = "</br>", "<b>Saransk</b>", "Peru-Denmark 0-1"), paste(sep = "<br/>", "<b>Rostov-on-Don</b>", "Brazil-Switzerland 1-1"),
+             paste(sep = "</br>", "<b>Sochi</b>", "Portugal-Spain 3-3", "Belgium-Panama 3-0"), paste(sep = "<br/>", "<b>Ekaterinburg</b>", "Egypt-Uruguay 0-1"))
+map <- stadium %>%
+    leaflet() %>%
+    setView(lng = 40, lat = 50, zoom = 4) %>%
+    addTiles() %>%
+    addMarkers(popup = results, clusterOptions = markerClusterOptions())
+map
+```
